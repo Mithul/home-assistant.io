@@ -36,6 +36,9 @@ ha_platforms:
   - switch
   - vacuum
 ha_integration_type: hub
+related:
+  - docs: /integrations/device_tracker/
+    title: Device tracker
 ---
 
 The **Xiaomi Home** {% term integration %} supports the following devices:
@@ -244,27 +247,27 @@ The list shows the device name, the model number, and the Zigbee ID.
 
 The device tracker platform is observing your Xiaomi Mi WiFi Repeater 2 and reporting all associated WiFi clients.
 
-Please follow the instructions on [Retrieving the Access Token](/integrations/xiaomi_miio/#retrieving-the-access-token) to get the API token.
+The repeater is not discoverable through the Xiaomi Home cloud setup, so it has to be added manually:
 
-To add a Xiaomi Mi WiFi Repeater device tracker to your installation, add the following to your {% term "`configuration.yaml`" %} file:
+1. Go to {% my integrations %}.
+2. Select **Xiaomi Home**.
+3. Select **Configure manually (not recommended)**.
+4. Enter the IP address of the repeater and its [API token](#retrieving-the-access-token).
 
-```yaml
-device_tracker:
-  - platform: xiaomi_miio
-    host: 192.168.130.73
-    token: YOUR_TOKEN
-```
+If Home Assistant cannot determine the device model automatically, select the repeater model from the **Device model** dropdown.
 
-{% configuration %}
-host:
-  description: The IP address of your Xiaomi device.
-  required: true
-  type: string
-token:
-  description: The API token of your Xiaomi device.
-  required: true
-  type: string
-{% endconfiguration %}
+Each WiFi client that connects to the repeater gets its own device tracker entity, named after the client's MAC address. These entities are disabled by default and are enabled automatically once the client is added to a [person](/integrations/person/).
+
+{% configuration_basic %}
+IP address:
+  description: "The IP address of your Xiaomi Mi WiFi Repeater 2."
+API token:
+  description: "The 32 character [API token](#retrieving-the-access-token) of your Xiaomi Mi WiFi Repeater 2."
+{% endconfiguration_basic %}
+
+### Migrating from YAML configuration
+
+The `xiaomi_miio` device tracker is no longer configured in your {% term "`configuration.yaml`" %} file. If you previously added the repeater through a `device_tracker:` block, remove that block and add the repeater through the UI as described above.
 
 ## Xiaomi Air Purifier, Air Humidifier and Standing Fan
 
